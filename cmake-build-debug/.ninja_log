@@ -1,0 +1,11 @@
+# ninja log v5
+2	673	7111677179078014	CMakeFiles/TestGame.dir/src/Engine.cpp.obj	88a9bb1b014d96bd
+37	859	7111676927020121	CMakeFiles/TestGame.dir/src/draw.cpp.obj	24b1cfb835182f
+491	568	7111658899762559	TestGame.exe	ceffa1f7ba34c9ed
+0	232	7111689888729819	build.ninja	4f0597c46bf2950d
+20	1055	7111676928976803	CMakeFiles/TestGame.dir/src/main.cpp.obj	7e473236ce6d17aa
+0	18	0	clean	78ad9115253b37c8
+3	705	7111689941822504	CMakeFiles/TestGame.dir/src/Engine.cpp.obj	7760c3cb9260eee2
+37	872	7111689943503951	CMakeFiles/TestGame.dir/src/draw.cpp.obj	8492cfa136432ee1
+20	1076	7111689945535695	CMakeFiles/TestGame.dir/src/main.cpp.obj	fdb354b1053d223
+1076	1143	7111689946195297	TestGame.exe	8283a3a45b6a609

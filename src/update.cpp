@@ -1,6 +1,7 @@
 //
 // Created by Nudalz on 16/07/2023.
 //
+#include <iostream>
 #include "Engine.h"
 
 void Engine::update() {
@@ -36,7 +37,7 @@ void Engine::update() {
             directionQueue.pop_front();
         }
         //grow the snake
-        if (sectionsToAdd){
+        if (sectionsToAdd) {
             addSnakeSection();
             sectionsToAdd--;
 
@@ -66,22 +67,54 @@ void Engine::update() {
         }
 
         //run snake section update functions
-        for (auto & s :snake){
-            s.update();
-        }
+        updateSnake();
 
         //Collision detection - Apple
-        if(snake[0].getShape().getGlobalBounds().intersects(apple.getSprite().getGlobalBounds())){
-            // we hit the apple, add more sections to the snake
-            //TODO - increment score
-            sectionsToAdd += 4;
-            speed ++;
-            moveApple();
-        }
-        
+        collisionDetection();
+
 
         //reset time
         timeSinceLastMove = Time::Zero;
     }
     //END update snake position
 }
+
+void Engine::collisionDetection() {
+    //Apple
+    if (snake[0].isCollide(apple.getSprite().getGlobalBounds())) {
+        // we hit the apple, add more sections to the snake
+        //TODO - increment score
+        sectionsToAdd += 4;
+        speed++;
+        moveApple();
+    }
+
+    //snake
+    for (int s = 1; s < snake.size(); ++s) {
+        if(snake[0].isCollide(snake[s].getShape().getGlobalBounds())){
+            std::cout<<"Snake crashed to segment: "<<s<<"\n";
+            currentGameState = GameState::GAMEOVER;
+        }
+    }
+
+    for(auto & w: wallSections){
+        if(snake[0].isCollide(w.getShape().getGlobalBounds())){
+            std::cout<<"Snake crashed to segment: "<<w.getPosition_String()<<"\n";
+            currentGameState = GameState::GAMEOVER;
+        }
+    }
+
+
+
+
+}
+
+void Engine::updateSnake() {
+    for (auto &s: snake) {
+        s.update();
+    }
+}
+
+
+
+

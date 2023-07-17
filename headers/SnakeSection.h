@@ -24,6 +24,8 @@ public:
         return section;
     }
     void update();
+
+    bool isCollide(Rect<float> rectangleShape);
 };
 
 

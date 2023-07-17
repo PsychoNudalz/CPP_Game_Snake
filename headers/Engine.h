@@ -10,8 +10,12 @@
 
 #include "SnakeSection.h"
 #include "Apple.h"
+#include "Wall.h"
 #include <vector>
 #include <deque>
+#include <fstream>
+#include <iostream>
+
 
 using namespace sf;
 using namespace std;
@@ -33,15 +37,29 @@ private:
     int sectionsToAdd;
 
     Apple apple;
+    vector<Wall> wallSections;
+    int currentLevel;
+    int maxLevels;
+    vector<string> levels;
 
     Time timeSinceLastMove;
+
+    int currentGameState;
+    int lastGameState;
+
+    void collisionDetection();
+    void updateSnake();
 
 public:
 
 
     Engine();
 
+    enum GameState {RUNNING, PAUSED, GAMEOVER};
+
     void draw();
+
+    static void setupText(Text *textItem,const Font &font, const String &value, int size, Color colour);
 
     //Main loop
     void run();
@@ -61,6 +79,11 @@ public:
     void addSnakeSection();
 
     void moveApple();
+    void checkLevelFiles();
+    void loadLevel(int levelNumber);
+
+    void togglePause();
+    void startGame();
 };
 
 

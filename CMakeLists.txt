@@ -3,7 +3,7 @@ project(TestGame)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(TestGame src/main.cpp src/Engine.cpp headers/Engine.h src/draw.cpp src/input.cpp src/SnakeSection.cpp headers/SnakeSection.h src/update.cpp src/Apple.cpp headers/Apple.h)
+add_executable(TestGame src/main.cpp src/Engine.cpp headers/Engine.h src/draw.cpp src/input.cpp src/SnakeSection.cpp headers/SnakeSection.h src/update.cpp src/Apple.cpp headers/Apple.h src/Wall.cpp headers/Wall.h)
 
 
 include_directories(headers /usr/include c:/SFML/include)

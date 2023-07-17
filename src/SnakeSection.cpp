@@ -19,3 +19,7 @@ void SnakeSection::setPosition(Vector2f newPosition) {
 void SnakeSection::update() {
     section.setPosition(position);
 }
+
+bool SnakeSection::isCollide(Rect<float> rectangleShape) {
+    return (getShape().getGlobalBounds().intersects(rectangleShape));
+}

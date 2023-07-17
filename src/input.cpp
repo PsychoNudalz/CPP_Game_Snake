@@ -16,21 +16,29 @@ void Engine::input() {
 //            if (Keyboard::isKeyPressed(Keyboard::Escape)) {
 //                window.close();
 //            }
+            //Pause
+            if (event.key.code == Keyboard::P) {
+                togglePause();
+            }
+            //Quit
             if (event.key.code == Keyboard::Escape) {
                 window.close();
+            }
+            //New Game
+            if(currentGameState == GameState::GAMEOVER){
+                if(event.key.code== Keyboard::Enter){
+                    startGame();
+                }
             }
 
             //direction
             if (event.key.code == Keyboard::Up) {
                 addDirection(Direction::UP);
-            }
-            else if (event.key.code == Keyboard::Down) {
+            } else if (event.key.code == Keyboard::Down) {
                 addDirection(Direction::DOWN);
-            }
-            else if (event.key.code == Keyboard::Left) {
+            } else if (event.key.code == Keyboard::Left) {
                 addDirection(Direction::LEFT);
-            }
-            else if (event.key.code == Keyboard::Right) {
+            } else if (event.key.code == Keyboard::Right) {
                 addDirection(Direction::RIGHT);
             }
 

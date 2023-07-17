@@ -4,18 +4,16 @@
 
 #include "Wall.h"
 
-Wall::Wall(Vector2f position, Vector2f size) {
-    wallShape.setSize(size);
-    wallShape.setFillColor(Color::White);
-    wallShape.setPosition(position);
-    this->position = position;
-
-}
-
- Vector2f Wall::getPosition()  {
-    return position;
-}
-
- std::string Wall::getPosition_String()  {
-    return std::to_string(getPosition().x) + ", " + std::to_string(getPosition().y);
+Wall::Wall(const Vector2f &pPosition, const Vector2i &gPosition, const Vector2f &size, const CellType &cType)
+        : Cell(pPosition, gPosition, size, cType) {
+    cellType = cType;
+    gridPosition = gPosition;
+    pixelPosition = pPosition;
+    cellShape.setSize(size);
+    cellShape.setFillColor(wallColour);
+    cellShape.setOutlineColor(borderColor);
+    cellShape.setOutlineThickness(outline);
+    cellShape.setPosition(pixelPosition);
+    colliderShape.setSize(size);
+    colliderShape.setPosition(pixelPosition);
 }

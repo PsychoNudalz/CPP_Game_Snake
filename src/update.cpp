@@ -47,16 +47,16 @@ void Engine::update() {
         //head
         switch (snakeDirection) {
             case Direction::RIGHT:
-                snake[0].setPosition(Vector2f(thisSectionPosition.x + SegmentSize, thisSectionPosition.y));
+                snake[0].setPosition(Vector2f(thisSectionPosition.x + CellSize, thisSectionPosition.y));
                 break;
             case Direction::LEFT:
-                snake[0].setPosition(Vector2f(thisSectionPosition.x - SegmentSize, thisSectionPosition.y));
+                snake[0].setPosition(Vector2f(thisSectionPosition.x - CellSize, thisSectionPosition.y));
                 break;
             case Direction::UP:
-                snake[0].setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y - SegmentSize));
+                snake[0].setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y - CellSize));
                 break;
             case Direction::DOWN:
-                snake[0].setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y + SegmentSize));
+                snake[0].setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y + CellSize));
                 break;
         }
         //tail
@@ -76,7 +76,7 @@ void Engine::update() {
         //reset time
         timeSinceLastMove = Time::Zero;
     }
-    //END update snake position
+    //END update snake pixelPosition
 }
 
 void Engine::collisionDetection() {
@@ -98,7 +98,7 @@ void Engine::collisionDetection() {
     }
 
     for(auto & w: wallSections){
-        if(snake[0].isCollide(w.getShape().getGlobalBounds())){
+        if(snake[0].isCollide(w.getColliderShape().getGlobalBounds())){
             std::cout<<"Snake crashed to segment: "<<w.getPosition_String()<<"\n";
             currentGameState = GameState::GAMEOVER;
         }
@@ -114,6 +114,7 @@ void Engine::updateSnake() {
         s.update();
     }
 }
+
 
 
 

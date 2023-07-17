@@ -7,10 +7,18 @@
 void Engine::draw() {
     window.clear(Color::Black);
 
-    //draw walls
-    for (auto & w:wallSections){
-        window.draw(w.getShape());
+    //draw cells
+    for (auto &r:cells) {
+        for (auto & c: r){
+            window.draw(c.getShape());
+
+        }
     }
+
+    //draw walls
+//    for (auto & w:wallSections){
+//        window.draw(w.getShape());
+//    }
 
     //draw apple
     window.draw(apple.getSprite());
@@ -22,7 +30,7 @@ void Engine::draw() {
 
     //Draw Tet
     window.draw(titleText);
-    
+
     window.display();
 }
 

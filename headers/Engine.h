@@ -11,6 +11,8 @@
 #include "SnakeSection.h"
 #include "Apple.h"
 #include "Wall.h"
+#include "Cell.h"
+
 #include <vector>
 #include <deque>
 #include <fstream>
@@ -23,35 +25,51 @@ using namespace std;
 class Engine {
 private:
     Vector2f resolution;
+    const Vector2f StartResolution = Vector2f(800, 600);
     RenderWindow window = RenderWindow();
     const std::string Title = "Amazing Test Game";
     const unsigned int FPS = 60;
-    const  float SegmentSize = 20;
+
     static const Time TimePerFrame;
+    Time timeSinceLastMove;
 
+    //Cell Properties
+
+    const  float CellSize = 20;
+    Vector2f CellVector;
+    Vector2i CellsInGrid;
+    vector<vector<Cell>> cells;
+
+
+    //Snake Properties
     vector<SnakeSection> snake;
-
     int snakeDirection;
     deque<int> directionQueue; // queue for direction key processing
     int speed;
     int sectionsToAdd;
 
+    //Apple Properties
     Apple apple;
+
+    //Wall Properties
     vector<Wall> wallSections;
+
+    //Level Properties
     int currentLevel;
     int maxLevels;
     vector<string> levels;
 
+    //Text
     Font mainFont;
     Text titleText;
 
-    Time timeSinceLastMove;
 
     int currentGameState;
     int lastGameState;
 
     void collisionDetection();
     void updateSnake();
+    void initialiseCells();
 
 public:
 
@@ -87,6 +105,9 @@ public:
 
     void togglePause();
     void startGame();
+
+    float getCellSize() const;
+    Vector2f getCellVector2();
 };
 
 

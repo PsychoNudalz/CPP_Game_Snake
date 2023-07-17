@@ -6,22 +6,15 @@
 #define TESTGAME_WALL_H
 
 #include <SFML/Graphics.hpp>
+#include "Cell.h"
 
 using namespace sf;
 
-class Wall {
-private:
-    RectangleShape wallShape;
-    Vector2f position;
+class Wall : public Cell{
+protected:
+    Color wallColour = Color::White;
 public:
-    Wall(Vector2f position, Vector2f size);
-    RectangleShape getShape(){
-        return wallShape;
-    }
-
-     Vector2f getPosition() ;
-     std::string getPosition_String() ;
-
+    Wall(const Vector2f &pPosition, const Vector2i &gPosition, const Vector2f &size, const CellType &cType);
 };
 
 

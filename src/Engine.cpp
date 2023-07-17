@@ -8,19 +8,27 @@
 const sf::Time Engine::TimePerFrame = seconds(1.f / 60.f);
 
 Engine::Engine() {
-    resolution = Vector2f(800, 600);
+    resolution = StartResolution;
     window.create(VideoMode(resolution.x, resolution.y), Title, Style::Default);
     window.setFramerateLimit(FPS);
     maxLevels = 0;
+
+    CellVector = Vector2f(CellSize, CellSize);
+
+
+    initialiseCells();
     checkLevelFiles();
 
 
     startGame();
 
+
     mainFont.loadFromFile("../assets/fonts/PressStart2P-Regular.ttf");
-    setupText(&titleText,mainFont,"SNAKE", 20,Color::Blue);
+
+
+    setupText(&titleText, mainFont, "SNAKE", 20, Color::Blue);
     FloatRect titleTextBounds = titleText.getLocalBounds();
-    titleText.setPosition(Vector2f(resolution.x/2-titleTextBounds.width/2,0));
+    titleText.setPosition(Vector2f(resolution.x / 2 - titleTextBounds.width / 2, 0));
 }
 
 void Engine::run() {
@@ -52,9 +60,9 @@ void Engine::run() {
 
 void Engine::newSnake() {
     snake.clear();
-    snake.emplace_back(Vector2f(SegmentSize * 5, SegmentSize * 5));
-    snake.emplace_back(Vector2f(SegmentSize * 4, SegmentSize * 5));
-    snake.emplace_back(Vector2f(SegmentSize * 3, SegmentSize * 5));
+    snake.emplace_back(Vector2f(CellSize * 5, CellSize * 5));
+    snake.emplace_back(Vector2f(CellSize * 4, CellSize * 5));
+    snake.emplace_back(Vector2f(CellSize * 3, CellSize * 5));
 }
 
 void Engine::addSnakeSection() {
@@ -74,20 +82,20 @@ void Engine::moveApple() {
         badLocation = false;
 
         //1 is for 1 segment offset from the wall
-        newAppleLocation.x = (float) (1 + rand() / ((RAND_MAX + 1u) / (int) appleResolution.x)) * SegmentSize;
-        newAppleLocation.y = (float) (1 + rand() / ((RAND_MAX + 1u) / (int) appleResolution.y)) * SegmentSize;
+        newAppleLocation.x = (float) (1 + rand() / ((RAND_MAX + 1u) / (int) appleResolution.x)) * CellSize;
+        newAppleLocation.y = (float) (1 + rand() / ((RAND_MAX + 1u) / (int) appleResolution.y)) * CellSize;
 
         for (auto &s: snake) {
             if (s.getShape().getGlobalBounds().intersects(
-                    Rect<float>(newAppleLocation.x, newAppleLocation.y, SegmentSize, SegmentSize))) {
+                    Rect<float>(newAppleLocation.x, newAppleLocation.y, CellSize, CellSize))) {
                 badLocation = true;
                 break;
             }
         }
         //check for apple on wall
-        for(auto & w:wallSections){
+        for (auto &w: wallSections) {
             if (w.getShape().getGlobalBounds().intersects(
-                    Rect<float>(newAppleLocation.x, newAppleLocation.y, SegmentSize, SegmentSize))) {
+                    Rect<float>(newAppleLocation.x, newAppleLocation.y, CellSize, CellSize))) {
                 badLocation = true;
                 break;
             }
@@ -146,8 +154,8 @@ void Engine::checkLevelFiles() {
     ifstream levelsManifest("../assets/levels/levels.txt");
 //    levelsManifest.open();
     ifstream testFile;
-    if( levelsManifest.is_open()){
-        std::cout<<"Level manifest read clear\n";
+    if (levelsManifest.is_open()) {
+        std::cout << "Level manifest read clear\n";
 
     }
     for (string manifestLine; getline(levelsManifest, manifestLine);) {
@@ -162,7 +170,7 @@ void Engine::checkLevelFiles() {
         }
     }
     levelsManifest.close();
-    std::cout<<"Level checked: "<<maxLevels<<" of levels\n";
+    std::cout << "Level checked: " << maxLevels << " of levels\n";
 }
 
 /**
@@ -174,13 +182,15 @@ void Engine::loadLevel(int levelNumber) {
     ifstream level(levelFile);
     string line;
     if (level.is_open()) {
-        for (int y = 0; y < 30; ++y) {
+        for (int y = 0; y < CellsInGrid.y; ++y) {
             getline(level, line);
-            for (int x = 0; x < 40; ++x) {
+            for (int x = 0; x < CellsInGrid.x; ++x) {
                 if (line[x] == 'x') {
-                    wallSections.emplace_back(
-                            Wall(Vector2f(x * SegmentSize, y * SegmentSize), Vector2f(SegmentSize, SegmentSize)));
+                    Wall wall = Wall(Vector2f(x * CellSize, y * CellSize), Vector2i(x, y), CellVector,
+                                     Cell::CellType::WALL);
 
+                    cells[y][x] = wall;
+                    wallSections.emplace_back(wall);
                 }
             }
         }
@@ -198,5 +208,26 @@ void Engine::setupText(Text *textItem, const Font &font, const String &value, in
 }
 
 
+float Engine::getCellSize() const {
+    return CellSize;
+}
+
+Vector2f Engine::getCellVector2() {
+    return CellVector;
+}
+
+void Engine::initialiseCells() {
+    CellsInGrid = Vector2i(resolution.x / CellSize, resolution.y / CellSize);
+    int xSize = CellsInGrid.x;
+    int ySize = CellsInGrid.y;
+    vector<Cell> row;
+    for (int y = 0; y < ySize; ++y) {
+        row = vector<Cell>();
+        for (int x = 0; x < xSize; ++x) {
+            row.emplace_back(Vector2f(x * CellSize, y * CellSize), Vector2i(x, y), CellVector, Cell::CellType::NONE);
+        }
+        cells.emplace_back(row);
+    }
+}
 
 

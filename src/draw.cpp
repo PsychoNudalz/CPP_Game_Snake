@@ -19,6 +19,9 @@ void Engine::draw() {
     for (auto & s : snake) {
         window.draw(s.getShape());
     }
+
+    //Draw Tet
+    window.draw(titleText);
     
     window.display();
 }

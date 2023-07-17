@@ -17,6 +17,10 @@ Engine::Engine() {
 
     startGame();
 
+    mainFont.loadFromFile("../assets/fonts/PressStart2P-Regular.ttf");
+    setupText(&titleText,mainFont,"SNAKE", 20,Color::Blue);
+    FloatRect titleTextBounds = titleText.getLocalBounds();
+    titleText.setPosition(Vector2f(resolution.x/2-titleTextBounds.width/2,0));
 }
 
 void Engine::run() {

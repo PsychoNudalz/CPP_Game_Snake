@@ -42,6 +42,9 @@ private:
     int maxLevels;
     vector<string> levels;
 
+    Font mainFont;
+    Text titleText;
+
     Time timeSinceLastMove;
 
     int currentGameState;

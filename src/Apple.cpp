@@ -4,6 +4,10 @@
 
 #include <iostream>
 #include "Apple.h"
+#include "TextureManager.h"
+
+Texture Apple::texture = Texture();
+
 
 Apple::Apple() {
     shape.setSize(Vector2f(20,20));

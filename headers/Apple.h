@@ -15,7 +15,7 @@ private:
 
     RectangleShape shape;
     Sprite sprite;
-     Texture texture;
+    static Texture texture;
     std::string texturePath = "../assets/sprites/apple.png";
     Cell *cell = nullptr;
 public:

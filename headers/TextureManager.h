@@ -11,11 +11,13 @@ using namespace sf;
 
 class TextureManager {
 public:
-//    static Texture appleTexture;
-//    std::string appleTexturePath = "../assets/sprites/apple.png";
-//
-//
+    static Texture appleTexture;
+    std::string appleTexturePath = "../assets/sprites/apple.png";
+
+
     explicit TextureManager();
+
+    static const Texture &getAppleTexture();
 };
 
 

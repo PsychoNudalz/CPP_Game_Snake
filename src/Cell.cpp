@@ -36,4 +36,12 @@ const RectangleShape &Cell::getColliderShape() const {
     return colliderShape;
 }
 
+void Cell::setCellType(int cellType) {
+    Cell::cellType = cellType;
+}
+
+int Cell::getCellType() const {
+    return cellType;
+}
+
 

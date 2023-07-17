@@ -74,7 +74,7 @@ private:
 public:
 
 
-    Engine();
+    explicit Engine();
 
     enum GameState {RUNNING, PAUSED, GAMEOVER};
 

@@ -6,7 +6,7 @@
 
 Wall::Wall(const Vector2f &pPosition, const Vector2i &gPosition, const Vector2f &size, const CellType &cType)
         : Cell(pPosition, gPosition, size, cType) {
-    cellType = cType;
+    cellType = CellType::WALL;
     gridPosition = gPosition;
     pixelPosition = pPosition;
     cellShape.setSize(size);

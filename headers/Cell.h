@@ -37,6 +37,9 @@ public:
 
     const RectangleShape &getColliderShape() const;
 
+    int getCellType() const;
+
+    void setCellType(int cellType);
 };
 
 

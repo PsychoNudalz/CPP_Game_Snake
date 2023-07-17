@@ -17,6 +17,9 @@ Engine::Engine() {
 
 
     initialiseCells();
+    apple = Apple();
+    apple.setCell(cells[0][0]);
+
     checkLevelFiles();
 
 
@@ -73,8 +76,8 @@ void Engine::addSnakeSection() {
 void Engine::moveApple() {
     //Find a location
 
-    Vector2f appleResolution = Vector2f(resolution.x / 20 - 2, resolution.y / 20 - 2);
     Vector2f newAppleLocation;
+    Cell appleCell = cells[0][0];
     bool badLocation = false;
     srand(time(nullptr));
     //loop until we find a valid location
@@ -82,9 +85,17 @@ void Engine::moveApple() {
         badLocation = false;
 
         //1 is for 1 segment offset from the wall
-        newAppleLocation.x = (float) (1 + rand() / ((RAND_MAX + 1u) / (int) appleResolution.x)) * CellSize;
-        newAppleLocation.y = (float) (1 + rand() / ((RAND_MAX + 1u) / (int) appleResolution.y)) * CellSize;
+//        newAppleLocation.x = (float) (1 + rand() / ((RAND_MAX + 1u) / (int) appleResolution.x)) * CellSize;
+//        newAppleLocation.y = (float) (1 + rand() / ((RAND_MAX + 1u) / (int) appleResolution.y)) * CellSize;
+        appleCell = cells[(1 + rand() / ((RAND_MAX + 1u) / (int) cells.size()))][(1 + rand() / ((RAND_MAX + 1u) /
+                                                                                                (int) cells[0].size()))];
+        newAppleLocation = appleCell.getPixelPosition();
+        if (appleCell.getCellType() != Cell::CellType::NONE) {
+            badLocation = true;
+            break;
+        }
 
+        //Check spawn collision
         for (auto &s: snake) {
             if (s.getShape().getGlobalBounds().intersects(
                     Rect<float>(newAppleLocation.x, newAppleLocation.y, CellSize, CellSize))) {
@@ -102,7 +113,7 @@ void Engine::moveApple() {
         }
     } while (badLocation);
 
-    apple.setPosition(newAppleLocation);
+    apple.setCell(appleCell);
 
 }
 

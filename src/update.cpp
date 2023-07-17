@@ -83,9 +83,9 @@ void Engine::collisionDetection() {
     //Apple
     if (snake[0].isCollide(apple.getSprite().getGlobalBounds())) {
         // we hit the apple, add more sections to the snake
-        //TODO - increment score
         sectionsToAdd += 4;
         speed++;
+        apple.collectApple();
         moveApple();
     }
 

@@ -6,19 +6,31 @@
 #define TESTGAME_APPLE_H
 
 #include <SFML/Graphics.hpp>
+#include "Cell.h"
 
 using namespace sf;
 
 class Apple {
 private:
-    RectangleShape sprite;
+
+    RectangleShape shape;
+    Sprite sprite;
+     Texture texture;
+    std::string texturePath = "../assets/sprites/apple.png";
+    Cell *cell = nullptr;
 public:
+
     Apple();
 
+    void setCell(Cell &newCell);
     void setPosition(Vector2f newPosition);
-    RectangleShape getSprite() {
+    Sprite &getSprite() {
         return sprite;
     }
+
+    Cell *getCell() const;
+
+    void collectApple();
 };
 
 

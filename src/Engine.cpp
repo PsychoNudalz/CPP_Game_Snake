@@ -18,7 +18,7 @@ Engine::Engine() {
 
     initialiseCells();
     apple = Apple();
-    apple.setCell(cells[0][0]);
+    apple.setCell(getCells()[0][0]);
 
     checkLevelFiles();
 
@@ -76,10 +76,13 @@ void Engine::addSnakeSection() {
 void Engine::moveApple() {
     //Find a location
 
-    Vector2f newAppleLocation;
-    Cell appleCell = cells[0][0];
+    Cell &appleCell = getCells()[0][0];
+    Vector2f &newAppleLocation = appleCell.getPixelPosition();
     bool badLocation = false;
-    srand(time(nullptr));
+    int x = 0;
+    int y = 0;
+//    rand(time(NULL) + randSeed);
+
     //loop until we find a valid location
     do {
         badLocation = false;
@@ -87,34 +90,37 @@ void Engine::moveApple() {
         //1 is for 1 segment offset from the wall
 //        newAppleLocation.x = (float) (1 + rand() / ((RAND_MAX + 1u) / (int) appleResolution.x)) * CellSize;
 //        newAppleLocation.y = (float) (1 + rand() / ((RAND_MAX + 1u) / (int) appleResolution.y)) * CellSize;
-        appleCell = cells[(1 + rand() / ((RAND_MAX + 1u) / (int) cells.size()))][(1 + rand() / ((RAND_MAX + 1u) /
-                                                                                                (int) cells[0].size()))];
+
+        x = (1 + rand() / ((RAND_MAX + 1u) / (int) getCells().size())) % getCells().size();
+        y = (1 + rand() / ((RAND_MAX + 1u) / (int) getCells()[0].size())) % getCells()[0].size();
+        appleCell = getCells()[x][y];
         newAppleLocation = appleCell.getPixelPosition();
         if (appleCell.getCellType() != Cell::CellType::NONE) {
             badLocation = true;
-            break;
+        }
+        if (!badLocation) {
+            //Check spawn collision
+            for (auto &s: snake) {
+                if (s.getShape().getGlobalBounds().intersects(
+                        Rect<float>(newAppleLocation.x, newAppleLocation.y, CellSize, CellSize))) {
+                    badLocation = true;
+                    break;
+                }
+            }
+//            //check for apple on wall
+//            for (auto &w: wallSections) {
+//                if (w.getShape().getGlobalBounds().intersects(
+//                        Rect<float>(newAppleLocation.x, newAppleLocation.y, CellSize, CellSize))) {
+//                    badLocation = true;
+//                    break;
+//                }
+//            }
         }
 
-        //Check spawn collision
-        for (auto &s: snake) {
-            if (s.getShape().getGlobalBounds().intersects(
-                    Rect<float>(newAppleLocation.x, newAppleLocation.y, CellSize, CellSize))) {
-                badLocation = true;
-                break;
-            }
-        }
-        //check for apple on wall
-        for (auto &w: wallSections) {
-            if (w.getShape().getGlobalBounds().intersects(
-                    Rect<float>(newAppleLocation.x, newAppleLocation.y, CellSize, CellSize))) {
-                badLocation = true;
-                break;
-            }
-        }
     } while (badLocation);
 
     apple.setCell(appleCell);
-
+    std::cout << "Move " << randSeed << " Apple to: " << newAppleLocation.x << ", " << newAppleLocation.y << "\n";
 }
 
 void Engine::togglePause() {
@@ -200,7 +206,7 @@ void Engine::loadLevel(int levelNumber) {
                     Wall wall = Wall(Vector2f(x * CellSize, y * CellSize), Vector2i(x, y), CellVector,
                                      Cell::CellType::WALL);
 
-                    cells[y][x] = wall;
+                    getCells()[y][x] = wall;
                     wallSections.emplace_back(wall);
                 }
             }
@@ -237,8 +243,12 @@ void Engine::initialiseCells() {
         for (int x = 0; x < xSize; ++x) {
             row.emplace_back(Vector2f(x * CellSize, y * CellSize), Vector2i(x, y), CellVector, Cell::CellType::NONE);
         }
-        cells.emplace_back(row);
+        getCells().emplace_back(row);
     }
+}
+
+vector<vector<Cell>> &Engine::getCells() {
+    return cells;
 }
 
 

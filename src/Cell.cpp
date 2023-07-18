@@ -19,11 +19,11 @@ Cell::Cell(Vector2f p_Position, Vector2i g_Position, Vector2f size,CellType cTyp
 
 }
 
-const Vector2i &Cell::getGridPosition() const {
+ Vector2i &Cell::getGridPosition()  {
     return gridPosition;
 }
 
-const Vector2f &Cell::getPixelPosition() const {
+ Vector2f &Cell::getPixelPosition()  {
     return pixelPosition;
 }
 
@@ -32,7 +32,7 @@ std::string Cell::getPosition_String() {
 
 }
 
-const RectangleShape &Cell::getColliderShape() const {
+ RectangleShape &Cell::getColliderShape()  {
     return colliderShape;
 }
 

@@ -12,10 +12,13 @@ void Engine::input() {
         }
         //keyboard input
         if (event.type == Event::KeyPressed) {
-            // Quit
-//            if (Keyboard::isKeyPressed(Keyboard::Escape)) {
-//                window.close();
-//            }
+
+
+            //Move Apple
+            if (event.key.code == Keyboard::X) {
+                moveApple();
+            }
+
             //Pause
             if (event.key.code == Keyboard::P) {
                 togglePause();

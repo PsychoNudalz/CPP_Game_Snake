@@ -29,6 +29,7 @@ private:
     RenderWindow window = RenderWindow();
     const std::string Title = "Amazing Test Game";
     const unsigned int FPS = 60;
+    int randSeed = 2;
 
     static const Time TimePerFrame;
     Time timeSinceLastMove;
@@ -78,6 +79,8 @@ public:
 
     enum GameState {RUNNING, PAUSED, GAMEOVER};
 
+     vector<vector<Cell>> &getCells() ;
+
     void draw();
 
     static void setupText(Text *textItem,const Font &font, const String &value, int size, Color colour);
@@ -108,6 +111,8 @@ public:
 
     float getCellSize() const;
     Vector2f getCellVector2();
+
+
 };
 
 

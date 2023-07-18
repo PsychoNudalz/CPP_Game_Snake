@@ -30,12 +30,12 @@ public:
 
 
 
-    const Vector2i &getGridPosition() const;
+     Vector2i &getGridPosition() ;
 
-    const Vector2f &getPixelPosition() const;
+     Vector2f &getPixelPosition() ;
     std::string getPosition_String() ;
 
-    const RectangleShape &getColliderShape() const;
+     RectangleShape &getColliderShape() ;
 
     int getCellType() const;
 

@@ -24,8 +24,15 @@ void Apple::setPosition(Vector2f newPosition) {
 }
 
 void Apple::setCell(Cell &newCell) {
+    if(cell!= nullptr){
+        cell->setCellType(0);
+    }
     cell = &newCell;
     setPosition(cell->getPixelPosition());
+    cell->setCellType(2);
+
+    std::cout << "Move Apple to: " << cell->getGridPosition().x << ", " << cell->getGridPosition().y << "\n";
+
 }
 
 

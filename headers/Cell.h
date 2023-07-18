@@ -16,7 +16,7 @@ protected:
     RectangleShape colliderShape;
     Vector2i gridPosition;
     Vector2f pixelPosition;
-    Color fillColor = Color::Black;
+    Color fillColor = Color::Magenta;
     Color borderColor = Color(100,100,100);
     float outline = 1.f;
 public:

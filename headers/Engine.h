@@ -38,7 +38,7 @@ private:
 
     const  float CellSize = 20;
     Vector2f CellVector;
-    Vector2i CellsInGrid;
+    Vector2i cellsInGrid;//X is columns, Y is rows.
     vector<vector<Cell>> cells;
 
 

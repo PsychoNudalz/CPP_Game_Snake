@@ -18,7 +18,7 @@ Engine::Engine() {
 
     initialiseCells();
     apple = Apple();
-    apple.setCell(getCells()[0][0]);
+    apple.setCell(cells[0][0]);
 
     checkLevelFiles();
 
@@ -76,11 +76,11 @@ void Engine::addSnakeSection() {
 void Engine::moveApple() {
     //Find a location
 
-    Cell &appleCell = getCells()[0][0];
+    Cell appleCell = cells[0][0];
     Vector2f &newAppleLocation = appleCell.getPixelPosition();
     bool badLocation = false;
-    int x = 0;
-    int y = 0;
+    int row = 0;
+    int column = 0;
 //    rand(time(NULL) + randSeed);
 
     //loop until we find a valid location
@@ -88,12 +88,12 @@ void Engine::moveApple() {
         badLocation = false;
 
         //1 is for 1 segment offset from the wall
-//        newAppleLocation.x = (float) (1 + rand() / ((RAND_MAX + 1u) / (int) appleResolution.x)) * CellSize;
-//        newAppleLocation.y = (float) (1 + rand() / ((RAND_MAX + 1u) / (int) appleResolution.y)) * CellSize;
+//        newAppleLocation.row = (float) (1 + rand() / ((RAND_MAX + 1u) / (int) appleResolution.row)) * CellSize;
+//        newAppleLocation.column = (float) (1 + rand() / ((RAND_MAX + 1u) / (int) appleResolution.column)) * CellSize;
 
-        x = (1 + rand() / ((RAND_MAX + 1u) / (int) getCells().size())) % getCells().size();
-        y = (1 + rand() / ((RAND_MAX + 1u) / (int) getCells()[0].size())) % getCells()[0].size();
-        appleCell = getCells()[x][y];
+        column = (1 + rand() / ((RAND_MAX + 1u) / (int) cellsInGrid.x)) % cellsInGrid.x;
+        row = (1 + rand() / ((RAND_MAX + 1u) / (int) cellsInGrid.y)) % cellsInGrid.y;
+        appleCell = cells[column][row];
         newAppleLocation = appleCell.getPixelPosition();
         if (appleCell.getCellType() != Cell::CellType::NONE) {
             badLocation = true;
@@ -110,7 +110,7 @@ void Engine::moveApple() {
 //            //check for apple on wall
 //            for (auto &w: wallSections) {
 //                if (w.getShape().getGlobalBounds().intersects(
-//                        Rect<float>(newAppleLocation.x, newAppleLocation.y, CellSize, CellSize))) {
+//                        Rect<float>(newAppleLocation.row, newAppleLocation.column, CellSize, CellSize))) {
 //                    badLocation = true;
 //                    break;
 //                }
@@ -119,8 +119,7 @@ void Engine::moveApple() {
 
     } while (badLocation);
 
-    apple.setCell(appleCell);
-    std::cout << "Move " << randSeed << " Apple to: " << newAppleLocation.x << ", " << newAppleLocation.y << "\n";
+    apple.setCell(cells[column][row]);
 }
 
 void Engine::togglePause() {
@@ -198,15 +197,17 @@ void Engine::loadLevel(int levelNumber) {
     string levelFile = levels[levelNumber - 1];
     ifstream level(levelFile);
     string line;
+    Cell current = cells[0][0];
     if (level.is_open()) {
-        for (int y = 0; y < CellsInGrid.y; ++y) {
+        for (int y = 0; y < cellsInGrid.y; ++y) {
             getline(level, line);
-            for (int x = 0; x < CellsInGrid.x; ++x) {
+            for (int x = 0; x < cellsInGrid.x; ++x) {
                 if (line[x] == 'x') {
-                    Wall wall = Wall(Vector2f(x * CellSize, y * CellSize), Vector2i(x, y), CellVector,
+                    current = cells[x][y];
+                    Wall wall = Wall(current.getPixelPosition(), current.getGridPosition(), CellVector,
                                      Cell::CellType::WALL);
 
-                    getCells()[y][x] = wall;
+                    cells[x][y] = wall;
                     wallSections.emplace_back(wall);
                 }
             }
@@ -234,16 +235,18 @@ Vector2f Engine::getCellVector2() {
 }
 
 void Engine::initialiseCells() {
-    CellsInGrid = Vector2i(resolution.x / CellSize, resolution.y / CellSize);
-    int xSize = CellsInGrid.x;
-    int ySize = CellsInGrid.y;
-    vector<Cell> row;
-    for (int y = 0; y < ySize; ++y) {
-        row = vector<Cell>();
-        for (int x = 0; x < xSize; ++x) {
-            row.emplace_back(Vector2f(x * CellSize, y * CellSize), Vector2i(x, y), CellVector, Cell::CellType::NONE);
+    cellsInGrid = Vector2i(resolution.x / CellSize, resolution.y / CellSize);
+    int xSize = cellsInGrid.x;
+    int ySize = cellsInGrid.y;
+    vector<Cell> column;
+    for (int x = 0; x < xSize; ++x) {
+
+        column = vector<Cell>();
+        for (int y = 0; y < ySize; ++y) {
+
+            column.emplace_back(Vector2f(x * CellSize, y * CellSize), Vector2i(x, y), CellVector, Cell::CellType::NONE);
         }
-        getCells().emplace_back(row);
+        cells.emplace_back(column);
     }
 }
 

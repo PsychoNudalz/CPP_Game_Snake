@@ -16,7 +16,7 @@ protected:
     RectangleShape colliderShape;
     Vector2i gridPosition;
     Vector2f pixelPosition;
-    Color fillColor = Color::Magenta;
+    Color fillColor = Color::Black;
     Color borderColor = Color(100,100,100);
     float outline = 1.f;
 public:
@@ -40,6 +40,8 @@ public:
     int getCellType() const;
 
     void setCellType(int cellType);
+
+
 };
 
 

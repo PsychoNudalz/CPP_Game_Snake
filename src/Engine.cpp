@@ -8,6 +8,7 @@
 const sf::Time Engine::TimePerFrame = seconds(1.f / 60.f);
 
 Engine::Engine() {
+
     resolution = StartResolution;
     window.create(VideoMode(resolution.x, resolution.y), Title, Style::Default);
     window.setFramerateLimit(FPS);
@@ -22,7 +23,7 @@ Engine::Engine() {
 
     checkLevelFiles();
 
-
+    snake = Snake(3, CellVector);
     startGame();
 
 
@@ -62,15 +63,11 @@ void Engine::run() {
 }
 
 void Engine::newSnake() {
-    snake.clear();
-    snake.emplace_back(Vector2f(CellSize * 5, CellSize * 5));
-    snake.emplace_back(Vector2f(CellSize * 4, CellSize * 5));
-    snake.emplace_back(Vector2f(CellSize * 3, CellSize * 5));
+    snake = Snake(3, CellVector);
 }
 
 void Engine::addSnakeSection() {
-    Vector2f newSectionPosition = snake[snake.size() - 1].getPosition();
-    snake.emplace_back(newSectionPosition);
+    snake.addSection();
 }
 
 void Engine::moveApple() {
@@ -100,7 +97,7 @@ void Engine::moveApple() {
         }
         if (!badLocation) {
             //Check spawn collision
-            for (auto &s: snake) {
+            for (auto &s: snake.getSections()) {
                 if (s.getShape().getGlobalBounds().intersects(
                         Rect<float>(newAppleLocation.x, newAppleLocation.y, CellSize, CellSize))) {
                     badLocation = true;

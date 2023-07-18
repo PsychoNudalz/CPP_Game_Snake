@@ -14,8 +14,8 @@ protected:
     int cellType = CellType::NONE;
     RectangleShape cellShape;
     RectangleShape colliderShape;
-    Vector2i gridPosition;
-    Vector2f pixelPosition;
+    Vector2i position_grip;
+    Vector2f position_pixel;
     Color fillColor = Color::Black;
     Color borderColor = Color(100,100,100);
     float outline = 1.f;

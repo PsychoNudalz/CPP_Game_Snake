@@ -9,6 +9,7 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 
 #include "SnakeSection.h"
+#include "Snake.h"
 #include "Apple.h"
 #include "Wall.h"
 #include "Cell.h"
@@ -43,7 +44,7 @@ private:
 
 
     //Snake Properties
-    vector<SnakeSection> snake;
+    Snake snake;
     int snakeDirection;
     deque<int> directionQueue; // queue for direction key processing
     int speed;

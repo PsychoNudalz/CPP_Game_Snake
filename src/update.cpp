@@ -76,7 +76,7 @@ void Engine::update() {
         //reset time
         timeSinceLastMove = Time::Zero;
     }
-    //END update snake pixelPosition
+    //END update snake position_pixel
 }
 
 void Engine::collisionDetection() {

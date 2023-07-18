@@ -4,20 +4,21 @@
 
 #include "SnakeSection.h"
 
-SnakeSection::SnakeSection(Vector2f startPosition) {
+SnakeSection::SnakeSection(Vector2f startPosition,Vector2f size) {
     section.setSize(startSize);
     section.setFillColor(Color::Green);
     section.setPosition(startPosition);
-    position = startPosition;
+    position_pixel = startPosition;
+    startSize = size;
 }
 
 void SnakeSection::setPosition(Vector2f newPosition) {
-    position = newPosition;
+    position_pixel = newPosition;
 
 }
 
 void SnakeSection::update() {
-    section.setPosition(position);
+    section.setPosition(position_pixel);
 }
 
 bool SnakeSection::isCollide(Rect<float> rectangleShape) {

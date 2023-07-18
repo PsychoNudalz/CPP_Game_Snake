@@ -10,17 +10,19 @@ using namespace sf;
 
 class SnakeSection {
 private:
-    Vector2f position;
+    Vector2i position_grid;
+    Vector2f position_pixel;
+    Vector2f centre_p;
     RectangleShape section;
     Vector2f startSize = Vector2f(20,20);
 public:
-    explicit SnakeSection(Vector2f startPosition);
+    explicit SnakeSection(Vector2f startPosition,Vector2f size);
     Vector2f getPosition() {
-        return position;
+        return position_pixel;
     }
 
     void setPosition(Vector2f newPosition);
-    RectangleShape getShape(){
+    RectangleShape getShape() const {
         return section;
     }
     void update();

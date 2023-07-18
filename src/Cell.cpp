@@ -6,25 +6,25 @@
 
 Cell::Cell(Vector2f p_Position, Vector2i g_Position, Vector2f size,CellType cType) {
     cellType =cType;
-    gridPosition = g_Position;
-    pixelPosition = p_Position;
+    position_grip = g_Position;
+    position_pixel = p_Position;
     cellShape.setSize(size);
     cellShape.setFillColor(fillColor);
     cellShape.setOutlineColor(borderColor);
     cellShape.setOutlineThickness(outline);
-    cellShape.setPosition(pixelPosition);
+    cellShape.setPosition(position_pixel);
     colliderShape.setSize(size);
-    colliderShape.setPosition(pixelPosition);
+    colliderShape.setPosition(position_pixel);
 
 
 }
 
  Vector2i &Cell::getGridPosition()  {
-    return gridPosition;
+    return position_grip;
 }
 
  Vector2f &Cell::getPixelPosition()  {
-    return pixelPosition;
+    return position_pixel;
 }
 
 std::string Cell::getPosition_String() {

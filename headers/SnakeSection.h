@@ -28,6 +28,8 @@ public:
     void updateShape();
 
     bool isCollide(Rect<float> rectangleShape);
+
+    void setColour(Color colour);
 };
 
 

@@ -18,6 +18,8 @@ class Snake {
 private:
     vector<SnakeSection> sections = vector<SnakeSection>();
     Vector2f CellVector = Vector2f(0,0);
+    Vector3i headColour = Vector3i (0,255,0);
+    Vector3i tailColour = Vector3i (150,255,150);
 public:
     Snake();
     Snake(int length,Vector2f &cellSize,Vector2f position);
@@ -28,6 +30,8 @@ public:
     SnakeSection &tail();
     void addSection();
     unsigned int size();
+    void updateColour();
+    Color getLerpColour(float f);
 };
 
 

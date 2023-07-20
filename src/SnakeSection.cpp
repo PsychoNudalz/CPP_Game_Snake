@@ -19,8 +19,14 @@ void SnakeSection::setPosition(Vector2f newPosition) {
 
 void SnakeSection::updateShape() {
     sectionShape.setPosition(position_pixel);
+
 }
 
 bool SnakeSection::isCollide(Rect<float> rectangleShape) {
     return (getShape().getGlobalBounds().intersects(rectangleShape));
+}
+
+void SnakeSection::setColour(Color colour) {
+    sectionShape.setFillColor(colour);
+
 }

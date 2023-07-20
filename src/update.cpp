@@ -115,6 +115,7 @@ void Engine::updateSnake() {
     for (auto &s: snake.getSections()) {
         s.updateShape();
     }
+    snake.updateColour();
 }
 
 

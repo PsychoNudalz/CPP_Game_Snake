@@ -45,6 +45,7 @@ private:
 
     //Snake Properties
     Snake snake;
+    int snakeStartSize = 3;
     int snakeDirection;
     deque<int> directionQueue; // queue for direction key processing
     int speed;

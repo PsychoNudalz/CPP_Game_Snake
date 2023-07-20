@@ -13,19 +13,19 @@ private:
     Vector2i position_grid;
     Vector2f position_pixel;
     Vector2f centre_p;
-    RectangleShape section;
+    RectangleShape sectionShape;
     Vector2f startSize = Vector2f(20,20);
 public:
     explicit SnakeSection(Vector2f startPosition,Vector2f size);
-    Vector2f getPosition() {
+    Vector2f getPosition_P() {
         return position_pixel;
     }
 
     void setPosition(Vector2f newPosition);
     RectangleShape getShape() const {
-        return section;
+        return sectionShape;
     }
-    void update();
+    void updateShape();
 
     bool isCollide(Rect<float> rectangleShape);
 };

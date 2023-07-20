@@ -24,7 +24,7 @@ void Engine::draw() {
     window.draw(apple.getSprite());
 
     //draw snake
-    for (auto & s : snake) {
+    for (auto & s : snake.getSections()) {
         window.draw(s.getShape());
     }
 

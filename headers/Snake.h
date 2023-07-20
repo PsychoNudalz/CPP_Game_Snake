@@ -16,16 +16,18 @@ using namespace std;
 
 class Snake {
 private:
-    vector<SnakeSection> sections;
-    int size = 0;
-    Vector2f CellVector;
+    vector<SnakeSection> sections = vector<SnakeSection>();
+    Vector2f CellVector = Vector2f(0,0);
 public:
-    Snake(int length,Vector2f &cellSize);
+    Snake();
+    Snake(int length,Vector2f &cellSize,Vector2f position);
 
-    const vector<SnakeSection> &getSections() const;
+     vector<SnakeSection> &getSections() ;
+     SnakeSection &getSection(int i) ;
     SnakeSection &head();
     SnakeSection &tail();
     void addSection();
+    unsigned int size();
 };
 
 

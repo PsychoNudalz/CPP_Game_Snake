@@ -23,7 +23,6 @@ Engine::Engine() {
 
     checkLevelFiles();
 
-    snake = Snake(3, CellVector);
     startGame();
 
 
@@ -63,7 +62,8 @@ void Engine::run() {
 }
 
 void Engine::newSnake() {
-    snake = Snake(3, CellVector);
+    snake = Snake(snakeStartSize, CellVector, cells[3][3].getPixelPosition());
+
 }
 
 void Engine::addSnakeSection() {

@@ -3,23 +3,28 @@
 //
 
 #include "Snake.h"
-Snake::Snake(int length, Vector2f &cellSize) {
-    sections.clear();
 
-    size = length;
+
+Snake::Snake() = default;
+
+
+Snake::Snake(int length, Vector2f &cellSize,Vector2f position) {
+    sections.clear();
     CellVector = cellSize;
-    for (int i = 0; i < length; ++i) {
+    sections.emplace_back(position, CellVector);
+
+    for (int i = 1; i < length; ++i) {
         addSection();
     }
 }
 
-const vector<SnakeSection> &Snake::getSections() const {
+vector<SnakeSection> &Snake::getSections() {
     return sections;
 }
 
 void Snake::addSection() {
-    Vector2f newSectionPosition =tail().getPosition();
-    sections.emplace_back(newSectionPosition,CellVector);
+    Vector2f newSectionPosition = tail().getPosition_P();
+    sections.emplace_back(newSectionPosition, CellVector);
 }
 
 SnakeSection &Snake::head() {
@@ -27,7 +32,15 @@ SnakeSection &Snake::head() {
 }
 
 SnakeSection &Snake::tail() {
-    return sections[sections.size()-1];
+    return sections[sections.size() - 1];
+}
+
+SnakeSection &Snake::getSection(int i) {
+    return sections[i];
+}
+
+unsigned int Snake::size() {
+    return sections.size();
 }
 
 

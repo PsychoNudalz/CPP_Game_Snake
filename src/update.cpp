@@ -6,7 +6,7 @@
 
 void Engine::update() {
     if (timeSinceLastMove.asSeconds() >= seconds(1.f / float(speed)).asSeconds()) {
-        Vector2f thisSectionPosition = snake[0].getPosition();
+        Vector2f thisSectionPosition = snake.head().getPosition_P();
         Vector2f lastSectionPosition = thisSectionPosition;
 
         if (!directionQueue.empty()) {
@@ -43,30 +43,30 @@ void Engine::update() {
 
         }
 
-        //update snake
+        //updateShape snake
         //head
         switch (snakeDirection) {
             case Direction::RIGHT:
-                snake[0].setPosition(Vector2f(thisSectionPosition.x + CellSize, thisSectionPosition.y));
+                snake.head().setPosition(Vector2f(thisSectionPosition.x + CellSize, thisSectionPosition.y));
                 break;
             case Direction::LEFT:
-                snake[0].setPosition(Vector2f(thisSectionPosition.x - CellSize, thisSectionPosition.y));
+                snake.head().setPosition(Vector2f(thisSectionPosition.x - CellSize, thisSectionPosition.y));
                 break;
             case Direction::UP:
-                snake[0].setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y - CellSize));
+                snake.head().setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y - CellSize));
                 break;
             case Direction::DOWN:
-                snake[0].setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y + CellSize));
+                snake.head().setPosition(Vector2f(thisSectionPosition.x, thisSectionPosition.y + CellSize));
                 break;
         }
         //tail
         for (int s = 1; s < snake.size(); ++s) {
-            thisSectionPosition = snake[s].getPosition();
-            snake[s].setPosition(lastSectionPosition);
+            thisSectionPosition = snake.getSection(s).getPosition_P();
+            snake.getSection(s).setPosition(lastSectionPosition);
             lastSectionPosition = thisSectionPosition;
         }
 
-        //run snake section update functions
+        //run snake sectionShape updateShape functions
         updateSnake();
 
         //Collision detection - Apple
@@ -76,12 +76,12 @@ void Engine::update() {
         //reset time
         timeSinceLastMove = Time::Zero;
     }
-    //END update snake position_pixel
+    //END updateShape snake position_pixel
 }
 
 void Engine::collisionDetection() {
     //Apple
-    if (snake[0].isCollide(apple.getSprite().getGlobalBounds())) {
+    if (snake.head().isCollide(apple.getSprite().getGlobalBounds())) {
         // we hit the apple, add more sections to the snake
         sectionsToAdd += 4;
         speed++;
@@ -89,29 +89,31 @@ void Engine::collisionDetection() {
         moveApple();
     }
 
-    //snake
-    for (int s = 1; s < snake.size(); ++s) {
-        if(snake[0].isCollide(snake[s].getShape().getGlobalBounds())){
-            std::cout<<"Snake crashed to segment: "<<s<<"\n";
-            currentGameState = GameState::GAMEOVER;
+    //Snake
+    if (snake.size() > snakeStartSize) {
+        for (int s = 1; s < snake.size(); ++s) {
+            if (snake.head().isCollide(snake.getSection(s).getShape().getGlobalBounds())) {
+                std::cout << "Snake crashed to segment: " << s << "\n";
+                currentGameState = GameState::GAMEOVER;
+                break;
+            }
         }
     }
 
-    for(auto & w: wallSections){
-        if(snake[0].isCollide(w.getColliderShape().getGlobalBounds())){
-            std::cout<<"Snake crashed to segment: "<<w.getPosition_String()<<"\n";
+    //Wall
+    for (auto &w: wallSections) {
+        if (snake.head().isCollide(w.getColliderShape().getGlobalBounds())) {
+            std::cout << "Snake crashed to segment: " << w.getPosition_String() << "\n";
             currentGameState = GameState::GAMEOVER;
         }
     }
-
-
 
 
 }
 
 void Engine::updateSnake() {
-    for (auto &s: snake) {
-        s.update();
+    for (auto &s: snake.getSections()) {
+        s.updateShape();
     }
 }
 

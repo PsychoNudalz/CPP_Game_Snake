@@ -5,9 +5,9 @@
 #include "SnakeSection.h"
 
 SnakeSection::SnakeSection(Vector2f startPosition,Vector2f size) {
-    section.setSize(startSize);
-    section.setFillColor(Color::Green);
-    section.setPosition(startPosition);
+    sectionShape.setSize(startSize);
+    sectionShape.setFillColor(Color::Green);
+    sectionShape.setPosition(startPosition);
     position_pixel = startPosition;
     startSize = size;
 }
@@ -17,8 +17,8 @@ void SnakeSection::setPosition(Vector2f newPosition) {
 
 }
 
-void SnakeSection::update() {
-    section.setPosition(position_pixel);
+void SnakeSection::updateShape() {
+    sectionShape.setPosition(position_pixel);
 }
 
 bool SnakeSection::isCollide(Rect<float> rectangleShape) {
